@@ -26,7 +26,10 @@ public class MainActivity extends ActionBarActivity {
         String[] myItems = {"Roma", "Berlino", "Parigi", "Londra", "Madrid"};
 
         /// Costruiamo l'adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.contenuto_listview, myItems);                               ///dati da mostrare (Items)
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this,                                   /// context
+                R.layout.contenuto_listview,            /// layout della listViw (da me creato in layout/contenuto_listview.xml
+                myItems);                               ///dati da mostrare (Items)
 
         /// Configuriamo la listView
         ListView list = (ListView) findViewById(R.id.listViewTest);
