@@ -5,9 +5,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /// array of option --> ArrayAdapter --> ListView
@@ -16,46 +22,38 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
+    ListView listViewUno;
+    TextView denominazioneLabel;
+    TextView name;
+    TextView api;
+    Button Btngetdata;
+    ArrayList<HashMap<String, String>> myList = new ArrayList<HashMap<String, String>>();
+
+    //URL to get JSON Array
+    private static String url = "https://www.dati.lombardia.it/resource/r9fb-4fm4.json";
+
+    //JSON Node Names
+    private static final String TAG_DENOMINAZIONE = "denominazione";
+    private static final String TAG_COMUNE = "comune_provincia";
+    private static final String TAG_INDIRIZZO = "indirizzo";
+    private static final String TAG_TELEFONO = "telefono";
+
+    JSONArray android = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /// creo l'azione
-        popolaListView();
+        myList = new ArrayList<HashMap<String, String>>();
+
+        ListView lv = getListView();
+
 
         /// creo aziione per pop up quando clicchi su items
-        azioneclick();
+        //azioneclick();
     }
 
 
-    private void popolaListView() {
-
-        /// create List of items
-        String[] valori = {"Roma", "Berlino", "Parigi", "Londra"};
-
-        /// build adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.contenuto_list, valori);
-
-        /// Configure ListView
-        ListView list = (ListView) findViewById(R.id.listViewUno);
-        list.setAdapter(adapter);
-
-    }
-
-    private void azioneclick() {
-        ListView list = (ListView) findViewById(R.id.listViewUno);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
-                TextView textView = (TextView) viewClicked;
-                String messaggio = "Tu hai cliccato  # " + position
-                        + ", che è la stringa: " + textView.getText().toString(); ///position indica id dell'item
-                Toast.makeText(MainActivity.this, messaggio, Toast.LENGTH_LONG).show();
-
-            }
-        });
-    }
-
-
+    
 }
