@@ -13,10 +13,9 @@
         android:textSize="20pt"
         android:textAlignment="center"/>
 
-    <ListView
+    <ListView android:id="@android:id/list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listViewok"
         android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"

@@ -1,14 +1,12 @@
 package com.example.pierangelo.listviewjson;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.widget.ListAdapter;
+import android.util.Log;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,21 +14,22 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends Activity {
+
+    ///String urlok = "https://www.dati.lombardia.it/resource/r9fb-4fm4.json";
+    String urlok = "http://perfectacavi.it/cables.json";
 
     private Context context;
-    private static String url = "https://www.dati.lombardia.it/resource/r9fb-4fm4.json";
 
-    private static final String TAG_DENOMINAZIO = "denominazione";
-    private static final String TAG_COMUNE = "comune";
-    private static final String TAG_INDIRIZZO = "indirizzo";
-    //private static final String TREAD = "Tread";
+    static final String TAG_TITOLO = "titolo";
+    static final String TAG_PUB = "tipo_cavo";
+    static final String TAG_IMG = "immagine";
 
     ArrayList<HashMap<String, String>> jsonlist = new ArrayList<HashMap<String, String>>();
 
-    ListView lv;
 
 
     @Override
@@ -38,6 +37,7 @@ public class MainActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         new ProgressTask(MainActivity.this).execute();
+
     }
 
 
@@ -46,6 +46,8 @@ public class MainActivity extends ListActivity {
         private ProgressDialog dialog;
 
         private MainActivity activity;
+
+
 
         public ProgressTask(MainActivity activity) {
 
@@ -60,10 +62,8 @@ public class MainActivity extends ListActivity {
         private Context context;
 
         protected void onPreExecute() {
-
-            this.dialog.setMessage("Progress start");
+            this.dialog.setMessage("Gira la Ruota gira la ruota");
             this.dialog.show();
-
         }
 
         @Override
@@ -73,44 +73,64 @@ public class MainActivity extends ListActivity {
                 dialog.dismiss();
             }
 
+            ///ArrayAdapter
+            ArrayList myjson = new ArrayList(jsonlist);
+            TagAdapter adapter = new TagAdapter(MainActivity.this, myjson);
+            ListView list = (ListView) findViewById(android.R.id.list);
+            list.setAdapter(adapter);
+
+            Log.d("milano", String.valueOf(TAG_IMG));
+
+            /*
             ListAdapter adapter = new SimpleAdapter(context, jsonlist, R.layout.contenuto_lista,
                     new String[]{TAG_DENOMINAZIO, TAG_COMUNE, TAG_INDIRIZZO},
                     new int[]{R.id.labelDenominazione, R.id.labelComune, R.id.labelIndirizzo});
 
-            setListAdapter(adapter);
-
-            lv = getListView();
+            ListView list = (ListView) findViewById(android.R.id.list);
+            list.setAdapter(adapter); */
 
         }
 
-        
+
         protected Void doInBackground(String... params) {
 
+            ///String urlok = "http://falegnameriapea.it/json/index/";
+
             JSONParser jParser = new JSONParser(); // get JSON data from URL
-            JSONArray json = jParser.getJSONFromUrl(url);
 
-            for (int i = 0; i < json.length(); i++)
+            String par = jParser.makeServiceCall(urlok, JSONParser.GET);
+
                 try {
+                    JSONArray json = new JSONArray(par);
 
-                    JSONObject c = json.getJSONObject(i);
-                    String denominazione = c.getString(TAG_DENOMINAZIO);
-                    String comune = c.getString(TAG_COMUNE);
-                    String indirizzo = c.getString(TAG_INDIRIZZO);
+                    ///for (int i = 0; i < json.length(); i++) {
+                    for (int i = 0; i < 3; i++) {
 
-                    HashMap<String, String> map = new HashMap<String, String>();
 
-                    map.put(TAG_DENOMINAZIO, denominazione);
-                    map.put(TAG_COMUNE, comune);
-                    map.put(TAG_INDIRIZZO, indirizzo);
+                        //JSONObject b = json.getJSONObject(i);
+                        ///JSONObject c = b.getJSONObject("fields");
+                        JSONObject c = json.getJSONObject(i);
+                        String titolo = c.getString(TAG_TITOLO);
+                        String pubdate = c.getString(TAG_PUB);
+                        String immagine = c.getString(TAG_IMG);
 
-                    jsonlist.add(map);
+                        HashMap<String, String> map = new HashMap<String, String>();
 
-                } catch (JSONException e) {
+                        map.put(TAG_TITOLO, titolo);
+                        map.put(TAG_PUB, pubdate);
+                        map.put(TAG_IMG, "http://www.perfectacavi.it/" + immagine);
+
+                        jsonlist.add(map);
+                    }
+            } catch (JSONException e) {
                     e.printStackTrace();
                 }
             return null;
         }
 
-    }
-}
 
+
+    }
+
+
+}
