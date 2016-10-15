@@ -29,6 +29,7 @@ public class DueFragment extends Fragment {
         return view;
     }
 
+    // creo funzione di ricezione dati, poi la richiamerò nell'activity principale
     public void inserisciDati(String tmp_name, String tmp_cognome) {
         nome.setText(tmp_name);
         cognome.setText(tmp_cognome);

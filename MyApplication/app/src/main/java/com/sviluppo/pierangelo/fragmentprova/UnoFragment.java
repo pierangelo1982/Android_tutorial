@@ -43,10 +43,10 @@ public class UnoFragment extends Fragment
         return view;
     }
 
-
+    ///creo lpinterface da richiamare nell'activity principale'
     interface ProvaInvia
     {
-        public void InviaDati(String nome, String cognome);
+        public void InviaDati(String nome, String cognome);// all'interno delle parentesi passo le funzioni, variabili ecc... che voglio
     }
 
     @Override

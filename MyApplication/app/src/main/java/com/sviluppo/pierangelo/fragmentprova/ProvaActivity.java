@@ -13,10 +13,14 @@ public class ProvaActivity extends AppCompatActivity implements UnoFragment.Prov
         setContentView(R.layout.activity_prova);
     }
 
-    @Override
+    @Override  // funzione creata in fragment uno e richiamata per passare al fragment due
     public void InviaDati(String nome, String cognome)
     {
         DueFragment due = (DueFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_ott);
-        due.inserisciDati(nome, cognome);
+        due.inserisciDati(nome, cognome); //funzione presa dal fragment di ricezione, fragment due
     }
 }
+
+
+/// per saperne di più vedi filmato:
+/// https://www.youtube.com/watch?v=ZmchkgqU1_w
