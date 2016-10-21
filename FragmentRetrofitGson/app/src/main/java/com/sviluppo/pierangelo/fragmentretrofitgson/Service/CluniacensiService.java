@@ -19,13 +19,12 @@ import retrofit2.http.GET;
 
 public class CluniacensiService extends Fragment_uno {
 
-    public interface CluniacensiApi extends Call<List<Cluniacensi>> {
+    public interface CluniacensiApi {
         @GET("/api/cluniacensi")
         Call<List<Cluniacensi>> getCluniacensiList();
     }
 
-
-    public static Retrofit goRetrofit()
+    public Retrofit getRetrofit()
     {
         Gson gson = new GsonBuilder().registerTypeAdapter(Cluniacensi.class, new CluniacensiDeserializer())
                 .create();
@@ -36,5 +35,4 @@ public class CluniacensiService extends Fragment_uno {
 
         return retrofit;
     }
-
 }
